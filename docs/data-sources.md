@@ -54,8 +54,7 @@
 * Recorded details: The inventory identifies a 62-page study of 7,200 metro users and reports that shared modes account for more than 75% of last-mile access, with a 20-minute access threshold.
 * Purpose: Provides contextual motivation for studying metro access and feeder-mode accessibility.
 
-9. External Sources
-
+### 8. External Sources
 * OpenStreetMap
 * WorldPop
 * Global Human Settlement Layer (GHSL)
