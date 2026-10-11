@@ -127,10 +127,48 @@ While demonstrated in deep detail on the Whitefield pilot, our framework is arch
 
 * **Spatial Coverage:** **5,726 H3 Resolution-9 hexagons** evaluated city-wide.
 * **Population Impact:** **4,711,546 residents** within the urban station buffer analyzed.
-* **Phased Rollout Strategy:**
-  * **Phase 1 (Immediate Pilot):** 10 Whitefield corridor stations (IT/industrial tech corridor).
-  * **Phase 2 (Dense Urban Core):** 28 interchange and commercial core stations (Majestic, MG Road, Indiranagar, Jayanagar).
-  * **Phase 3 (Suburban Periphery):** 45 terminal and outer corridor stations (Kengeri, Silk Institute, Nagasandra, Challaghatta).
+## 5. Scaling Vision: City-Wide 83-Station Scaled Intelligence & Visual Evidence
+
+While demonstrated in exhaustive ground-truth detail on the Whitefield pilot, our mathematical pipeline is 100% automated and has been computed across the entire **83-Station BMRCL Namma Metro Network** (Purple and Green Lines):
+
+> **📖 Complete City-Wide Visual Guide:** For detailed high-resolution maps, line-by-line breakdowns, and judge defense scripts for all 12 network visualizations, see the [**City-Wide 83-Station Scaling Intelligence Report**](docs/NETWORK_83_SCALING_REPORT.md).
+
+### 5.1 Network-Wide Quantitative Headline Matrix (4,286,735 Buffer Population)
+
+| Accessibility Metric | Walk Baseline (4.5 km/h) | E-Bike Doorstep Uplift (13.5 km/h + 5m) | Combined Active Reach (Walk $\cup$ Bike) | E-Auto Upper Bound (18 km/h + 5m) | Multi-Modal Union | Residual Unserved Gap |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **$T = 15\text{ min}$ Population** | **957,972 (22.3%)** | **+898,233 (+21.0%)** | **1,856,205 (43.3%)** | +958,323 (+22.4%) | **2,814,527 (65.7%)** | **1,472,207 (34.3%)** |
+| **$T = 20\text{ min}$ Population** | **1,454,771 (33.9%)** | **+1,491,128 (+34.8%)** | **2,945,899 (68.7%)** | +1,086,392 (+25.3%) | **4,032,291 (94.1%)** | **254,444 (5.9%)** |
+
+*Official BMRCL Daily Ridership Analyzed:* **704,043 passengers/day** across all 83 stations (August 2025 disclosures).
+
+### 5.2 Key City-Wide Visual Artifacts
+
+```
+┌────────────────────────────────────────────────────────┐
+│  Figure 1: City-Wide Multi-Modal Isochrone Access Map  │
+│  Figure 5: Network Submodular Greedy Feeder Hub Siting │
+│  Figure 9: Executive Dashboard KPI Cards (One-Pager)   │
+└────────────────────────────────────────────────────────┘
+```
+* **Figure 1 (City-Wide Catchment Map):** [`docs/figures_network/fig01_access_map_T15_T20.png`](docs/figures_network/fig01_access_map_T15_T20.png) — 300 DPI dual-panel cartographic projection mapping all 5,726 H3 Res-9 cells across Bengaluru.
+* **Figure 5 (Hub Siting & Gain Curve):** [`docs/figures_network/fig05_hub_siting_map_and_curve.png`](docs/figures_network/fig05_hub_siting_map_and_curve.png) — Submodular greedy optimization siting hubs across city-wide street corners with diminishing marginal returns.
+* **Figure 9 (Executive KPI Dashboard):** [`docs/figures_network/fig09_headline_onepager.png`](docs/figures_network/fig09_headline_onepager.png) — Headline one-pager card presenting total population, ridership, and active reach.
+
+### 5.3 Top Priority Stations across Bengaluru (Need vs. Ridership Optimization)
+
+| Rank | Station Name | Line | Daily Boardings | Unserved Need (>15m walk) | Buffer Pop | Score ($\text{Need} \times \sqrt{\text{Ridership}}$) |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| **#1** | **Benniganahalli** | Purple | 25,813 | 108,911 | 118,660 | 17,497,419 |
+| **#2** | **Krishnarajapura** | Purple | 18,351 | 136,814 | 150,380 | 18,533,391 |
+| **#3** | **Mahatma Gandhi Road** | Purple | 20,853 | 59,193 | 71,158 | 8,547,789 |
+| **#4** | **Indiranagar** | Purple | 21,229 | 57,943 | 75,860 | 8,442,166 |
+| **#5** | **Konanakunte Cross** | Green | 12,570 | 79,688 | 95,017 | 8,934,258 |
+
+### 5.4 Phased Rollout Strategy
+* **Phase 1 (Immediate Pilot):** 10 Whitefield corridor stations (IT/industrial tech corridor, 453,687 residents, +63,214 e-bike reach).
+* **Phase 2 (Dense Urban & Interchange):** 28 interchange and core commercial stations (Majestic, MG Road, Indiranagar, Jayanagar, Silk Board).
+* **Phase 3 (Suburban Network Integration):** 45 terminal and outer corridor stations (Kengeri, Silk Institute, Nagasandra, Challaghatta) addressing 3.33M unserved residents.
 
 ---
 
@@ -169,20 +207,30 @@ The project includes an enterprise-grade Streamlit application structured into 9
 │   └── study_area.py                  <- H3 spatial tessellation and WorldPop zonal integration
 ├── scripts/
 │   ├── run_diagnostic_audit.py        <- Comprehensive sanity check and corridor validation
-│   ├── generate_presentation_figures.py <- Headless matplotlib generator for 9 publication figures
+│   ├── generate_presentation_figures.py <- Matplotlib generator for 10-station pilot figures (300 DPI)
+│   ├── generate_network_figures.py    <- Matplotlib generator for 83-station city-wide figures (300 DPI)
 │   ├── export_qgis_layers.py          <- Formats geopackages and QML styles for GIS work
 │   └── verify_all_project_math.py     <- Mathematical verification and consistency assertions
 ├── data/
-│   ├── output/                        <- Precomputed CSVs, Parquet files, and GeoPackages
+│   ├── output/                        <- Precomputed 10-station pilot outputs (CSVs, GPKGs, JSON)
 │   │   ├── cells.csv                  <- 572 H3 Res-9 cells with multi-modal travel times
 │   │   ├── candidate_sites.gpkg       <- 881 candidate street-corner feeder locations
 │   │   ├── selected_sites.csv         <- Prioritized greedy hub sequence (k=1 to 15)
-│   │   ├── station_ranking.csv        <- Dual-metric priority rankings for all pilot stations
+│   │   ├── station_ranking.csv        <- Dual-metric priority rankings for pilot stations
 │   │   ├── stations_83_network.csv    <- City-wide 83-station coordinates and line tags
 │   │   └── catchments_qgis.gpkg       <- Multi-layer GeoPackage for desktop GIS analysis
+│   ├── output_network/                <- Complete 83-station city-wide scaled outputs
+│   │   ├── cells_network_classified.csv <- 5,726 H3 Res-9 cells classified across modes
+│   │   ├── candidate_sites.gpkg       <- Thousands of candidate feeder sites city-wide
+│   │   ├── selected_sites.csv         <- Scaled greedy hub sequence for Bengaluru
+│   │   ├── stations_ranking_all83.csv <- Complete 83-station priority rankings
+│   │   └── network_headline_table.csv <- Network-wide catchment benchmarks (T=15 & T=20)
 │   └── qgis_layers/                   <- 12 cartographically styled .qml GIS layers
 ├── docs/
-│   ├── figures/                       <- 9 high-resolution presentation figures (300 DPI)
+│   ├── figures/                       <- 9 high-resolution pilot presentation figures (300 DPI)
+│   ├── figures_network/               <- 12 high-resolution 83-station network figures (300 DPI)
+│   ├── FIGURES_EXPLANATION.md         <- Comprehensive judge defense guide for pilot figures
+│   ├── NETWORK_83_SCALING_REPORT.md   <- Comprehensive scaling intelligence report for 83 stations
 │   ├── methodology.md                 <- Extended technical documentation and equations
 │   └── data-sources.md                <- Comprehensive provenance and licensing register
 └── tests/                             <- Pytest automated verification suite

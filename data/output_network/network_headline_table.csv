@@ -1,0 +1,3 @@
+threshold_T_min,study_area_population,walk_covered_pop,walk_covered_pct,ebike_uplift_pop,ebike_uplift_pct,eauto_uplift_pop,eauto_uplift_pct,combined_covered_pop,combined_covered_pct,residual_unserved_pop,residual_unserved_pct
+15.0,4286734.7,957971.6,22.3,898233.2,21.0,958322.6,22.4,2814527.4,65.7,1472207.3,34.3
+20.0,4286734.7,1454771.1,33.9,1491127.5,34.8,1086392.3,25.3,4032290.9,94.1,254443.8,5.9

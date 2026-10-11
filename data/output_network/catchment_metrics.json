@@ -1,0 +1,15 @@
+{
+  "study_area": "Bengaluru Metro Network (83 Stations)",
+  "threshold_T_min": 15.0,
+  "total_population": 4286734.699999999,
+  "walk_covered_pop": 957971.6,
+  "walk_covered_pct": 22.3,
+  "ebike_uplift_pop": 898233.2,
+  "ebike_uplift_pct": 21.0,
+  "eauto_uplift_pop": 958322.6,
+  "eauto_uplift_pct": 22.4,
+  "combined_covered_pop": 2814527.4000000004,
+  "combined_covered_pct": 65.7,
+  "residual_pop": 1472207.3,
+  "residual_pct": 34.3
+}
