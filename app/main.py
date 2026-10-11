@@ -166,11 +166,11 @@ st.markdown("""
 
 # -----------------------------------------------------------------------------
 # DATA LOADING & CACHING (100% SELF-CONTAINED FROM data/output)
-# -----------------------------------------------------------------------------
-DATA_DIR = Path("data/output")
+import os
+DATA_DIR = Path(os.environ.get("STREAMLIT_DATA_DIR", "data/output"))
 INTERIM_DIR = Path("data/interim")
 NETWORK_DIR = Path("data/output_network")
-FIGURES_DIR = Path("docs/figures")
+FIGURES_DIR = Path("docs/figures_network" if (DATA_DIR == Path("data/output_network") and Path("docs/figures_network").exists()) else "docs/figures")
 
 
 @st.cache_data
@@ -186,9 +186,30 @@ def load_all_dashboard_data():
     stations_selected = gpd.read_file(st_sel_path).to_crs("EPSG:4326")
     stations_all = gpd.read_file(st_all_path).to_crs("EPSG:4326")
     
-    # 83 City-wide stations & network cells
-    stations_83_df = pd.read_csv(NETWORK_DIR / "stations_83_network.csv")
-    cells_network_df = pd.read_csv(NETWORK_DIR / "cells_network.csv")
+    # 83 City-wide stations & network cells (multi-path lookup with safe fallback)
+    st_83_path = None
+    for p in [DATA_DIR / "stations_83_network.csv", NETWORK_DIR / "stations_83_network.csv"]:
+        if p.exists():
+            st_83_path = p
+            break
+            
+    if st_83_path is not None:
+        stations_83_df = pd.read_csv(st_83_path)
+    else:
+        stations_83_df = pd.DataFrame({
+            "station_id": stations_selected["station_id"].tolist() if "station_id" in stations_selected.columns else [f"ST_{i+1:03d}" for i in range(len(stations_selected))],
+            "name": stations_selected["name"].tolist(),
+            "lat": stations_selected.geometry.y.tolist(),
+            "lon": stations_selected.geometry.x.tolist()
+        })
+        
+    cells_net_path = None
+    for p in [DATA_DIR / "cells_network.csv", NETWORK_DIR / "cells_network.csv"]:
+        if p.exists():
+            cells_net_path = p
+            break
+            
+    cells_network_df = pd.read_csv(cells_net_path) if cells_net_path is not None else cells_df
     
     # Candidate sites & selected sites (with coordinates merged)
     candidate_sites_gdf = gpd.read_file(DATA_DIR / "candidate_sites.gpkg").to_crs("EPSG:4326")
@@ -223,7 +244,10 @@ def load_all_dashboard_data():
             return "Western Context Absorber (2 Stations)"
         return "Bengaluru Metro Network (71 Stations)"
         
-    stations_83_df["corridor_group"] = stations_83_df["name"].apply(tag_corridor)
+    if not stations_83_df.empty and "name" in stations_83_df.columns:
+        stations_83_df["corridor_group"] = stations_83_df["name"].apply(tag_corridor)
+    else:
+        stations_83_df["corridor_group"] = "Pilot Corridor"
 
     return {
         "cells_df": cells_df,
