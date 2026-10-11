@@ -222,12 +222,21 @@ def load_all_dashboard_data():
     else:
         selected_sites_t20_df = selected_sites_df
         
-    ranking_df = pd.read_csv(DATA_DIR / "station_ranking.csv")
-    speed_matrix_df = pd.read_csv(DATA_DIR / "speed_sensitivity_matrix.csv")
-    overhead_matrix_df = pd.read_csv(DATA_DIR / "overhead_sensitivity_matrix.csv")
+    ranking_path = DATA_DIR / "station_ranking.csv"
+    ranking_df = pd.read_csv(ranking_path) if ranking_path.exists() else pd.DataFrame()
+
+    speed_path = DATA_DIR / "speed_sensitivity_matrix.csv"
+    speed_matrix_df = pd.read_csv(speed_path) if speed_path.exists() else pd.DataFrame()
+
+    overhead_path = DATA_DIR / "overhead_sensitivity_matrix.csv"
+    overhead_matrix_df = pd.read_csv(overhead_path) if overhead_path.exists() else pd.DataFrame()
     
-    with open(DATA_DIR / "catchment_metrics.json", "r", encoding="utf-8") as f:
-        metrics = json.load(f)
+    metrics_path = DATA_DIR / "catchment_metrics.json"
+    if metrics_path.exists():
+        with open(metrics_path, "r", encoding="utf-8") as f:
+            metrics = json.load(f)
+    else:
+        metrics = {}
         
     # Tag 83 stations by corridor
     pilot_names = [
@@ -703,7 +712,7 @@ elif nav_choice == "2. Multi-Modal Access Map":
                         tooltip=f"★ Selected Feeder Hub #{int(h['order'])}: {h['site_id']}<br>Marginal Gain: +{h['marginal_gain']:,.0f} unserved residents"
                     ).add_to(m)
 
-        st_folium(m, width="stretch", height=600)
+        st_folium(m, use_container_width=True, height=600)
 
 
 # ==============================================================================
@@ -1043,26 +1052,48 @@ elif nav_choice == "7. Scale Vision: 83-Station Network":
 
     with col_map83:
         st.subheader("🗺️ 83-Station City-Wide Network Map")
-        fig_83 = px.scatter_mapbox(
-            stations_83_df,
-            lat="lat",
-            lon="lon",
-            hover_name="name",
-            color="corridor_group",
-            color_discrete_map={
-                "Whitefield Pilot (10 Stations)": "#DC2626",
-                "Western Context Absorber (2 Stations)": "#F59E0B",
-                "Bengaluru Metro Network (71 Stations)": "#2563EB"
-            },
-            zoom=10.2,
-            height=500
-        )
-        fig_83.update_layout(
-            mapbox_style="carto-positron",
-            margin=dict(l=10, r=10, t=10, b=10),
-            legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02, bgcolor="rgba(255,255,255,0.85)")
-        )
-        st.plotly_chart(fig_83, width="stretch")
+        color_map = {
+            "Whitefield Pilot (10 Stations)": "#DC2626",
+            "Western Context Absorber (2 Stations)": "#F59E0B",
+            "Bengaluru Metro Network (71 Stations)": "#2563EB"
+        }
+        
+        try:
+            if hasattr(px, "scatter_map"):
+                fig_83 = px.scatter_map(
+                    stations_83_df,
+                    lat="lat",
+                    lon="lon",
+                    hover_name="name",
+                    color="corridor_group" if "corridor_group" in stations_83_df.columns else None,
+                    color_discrete_map=color_map,
+                    zoom=10.2,
+                    height=500
+                )
+                fig_83.update_layout(
+                    map_style="open-street-map",
+                    margin=dict(l=10, r=10, t=10, b=10),
+                    legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02, bgcolor="rgba(255,255,255,0.85)")
+                )
+            else:
+                fig_83 = px.scatter_mapbox(
+                    stations_83_df,
+                    lat="lat",
+                    lon="lon",
+                    hover_name="name",
+                    color="corridor_group" if "corridor_group" in stations_83_df.columns else None,
+                    color_discrete_map=color_map,
+                    zoom=10.2,
+                    height=500
+                )
+                fig_83.update_layout(
+                    mapbox_style="open-street-map",
+                    margin=dict(l=10, r=10, t=10, b=10),
+                    legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02, bgcolor="rgba(255,255,255,0.85)")
+                )
+            st.plotly_chart(fig_83, width="stretch")
+        except Exception:
+            st.map(stations_83_df, latitude="lat", longitude="lon", zoom=10)
 
     with col_roadmap:
         st.subheader("🚀 3-Phase City-Wide Rollout Plan")
@@ -1138,14 +1169,20 @@ elif nav_choice == "9. Data Downloads & Methodology":
     with col_dl1:
         st.subheader("📊 Tabular Results (CSV & JSON)")
         
-        with open(DATA_DIR / "station_ranking.csv", "rb") as f:
-            st.download_button("⬇️ Download Station Rankings (CSV)", f.read(), "station_ranking.csv", "text/csv")
+        p_rank = DATA_DIR / "station_ranking.csv"
+        if p_rank.exists():
+            with open(p_rank, "rb") as f:
+                st.download_button("⬇️ Download Station Rankings (CSV)", f.read(), "station_ranking.csv", "text/csv")
             
-        with open(DATA_DIR / "selected_sites.csv", "rb") as f:
-            st.download_button("⬇️ Download Selected Feeder Hubs (CSV)", f.read(), "selected_sites.csv", "text/csv")
+        p_sel = DATA_DIR / "selected_sites.csv"
+        if p_sel.exists():
+            with open(p_sel, "rb") as f:
+                st.download_button("⬇️ Download Selected Feeder Hubs (CSV)", f.read(), "selected_sites.csv", "text/csv")
 
-        with open(DATA_DIR / "catchment_metrics.json", "rb") as f:
-            st.download_button("⬇️ Download Catchment Metrics (JSON)", f.read(), "catchment_metrics.json", "application/json")
+        p_met = DATA_DIR / "catchment_metrics.json"
+        if p_met.exists():
+            with open(p_met, "rb") as f:
+                st.download_button("⬇️ Download Catchment Metrics (JSON)", f.read(), "catchment_metrics.json", "application/json")
 
     with col_dl2:
         st.subheader("🗺️ GIS Spatial Layers (GeoPackage)")
@@ -1155,8 +1192,10 @@ elif nav_choice == "9. Data Downloads & Methodology":
             with open(qgis_master, "rb") as f:
                 st.download_button("⬇️ Download Master QGIS Catchments (GPKG)", f.read(), "catchments_qgis.gpkg", "application/geopackage+sqlite3")
 
-        with open(DATA_DIR / "cells.csv", "rb") as f:
-            st.download_button("⬇️ Download 572 H3 Res-9 Cells Attributes (CSV)", f.read(), "cells.csv", "text/csv")
+        p_cells = DATA_DIR / "cells.csv"
+        if p_cells.exists():
+            with open(p_cells, "rb") as f:
+                st.download_button("⬇️ Download 572 H3 Res-9 Cells Attributes (CSV)", f.read(), "cells.csv", "text/csv")
 
     st.markdown("---")
     st.subheader("📚 Methodology & Sources")
