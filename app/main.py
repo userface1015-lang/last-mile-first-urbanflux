@@ -1030,95 +1030,215 @@ elif nav_choice == "7. Scale Vision: 83-Station Network":
 
     st.markdown("""
     <div class="success-card">
-        <strong>From Pilot to City-Wide System:</strong> The exact pipeline validated on the Whitefield corridor has been pre-computed 
-        and tested on all 83 operational stations across the Purple and Green Lines, processing 5,726 H3 Res-9 cells covering 4.71 million residents.
+        <strong>From Pilot to City-Wide System:</strong> The exact submodular optimization pipeline validated on the 
+        Whitefield corridor has been pre-computed and evaluated across all 83 operational stations along the Purple and Green Lines, 
+        spanning 5,726 H3 Res-9 cells and 4.71 million residents.
     </div>
     """, unsafe_allow_html=True)
 
-    # City-wide Network Metrics
+    # City-wide Network Metrics (using resilient high-contrast metric cards)
     n1, n2, n3, n4 = st.columns(4)
     with n1:
-        st.metric("Total Metro Stations", "83 Stations", "Purple & Green Lines")
+        st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">🚇 Operational Network</div>
+            <div class="metric-value">83 Stations</div>
+            <div class="metric-delta delta-blue">Purple & Green Lines</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Entire BMRCL Rapid Transit</div>
+        </div>
+        """, unsafe_allow_html=True)
     with n2:
-        st.metric("City-Wide Population in Buffer", "4,711,546 residents", "WorldPop 2020")
+        st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">👥 Buffer Population</div>
+            <div class="metric-value">4.71 Million</div>
+            <div class="metric-delta delta-green">WorldPop 2020 Validated</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Within Urban Station Catchment</div>
+        </div>
+        """, unsafe_allow_html=True)
     with n3:
-        st.metric("H3 Res-9 Grid Resolution", "5,726 Hexagons", "~100 m cell radius")
+        st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">⬡ Spatial Resolution</div>
+            <div class="metric-value">5,726 Cells</div>
+            <div class="metric-delta delta-amber">H3 Resolution-9 Grid</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">~100 m Hexagon Radius</div>
+        </div>
+        """, unsafe_allow_html=True)
     with n4:
-        st.metric("Algorithmic Complexity", "O(k · |C|)", "Scales sub-linearly")
+        st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">⚡ Algorithmic Scaling</div>
+            <div class="metric-value">O(k · |C|)</div>
+            <div class="metric-delta delta-green">Sub-Linear Greedy Solver</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">(1 - 1/e) ≈ 63.2% Approximation</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    col_map83, col_roadmap = st.columns([1.5, 1])
+    col_map83, col_roadmap = st.columns([1.6, 1])
 
     with col_map83:
         st.subheader("🗺️ 83-Station City-Wide Network Map")
-        color_map = {
-            "Whitefield Pilot (10 Stations)": "#DC2626",
-            "Western Context Absorber (2 Stations)": "#F59E0B",
-            "Bengaluru Metro Network (71 Stations)": "#2563EB"
-        }
+        st.caption("Interactive Leaflet GIS map rendered on OpenStreetMap. Click any station marker for ridership and catchment metrics.")
         
-        try:
-            if hasattr(px, "scatter_map"):
-                fig_83 = px.scatter_map(
-                    stations_83_df,
-                    lat="lat",
-                    lon="lon",
-                    hover_name="name",
-                    color="corridor_group" if "corridor_group" in stations_83_df.columns else None,
-                    color_discrete_map=color_map,
-                    zoom=10.2,
-                    height=500
-                )
-                fig_83.update_layout(
-                    map_style="open-street-map",
-                    margin=dict(l=10, r=10, t=10, b=10),
-                    legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02, bgcolor="rgba(255,255,255,0.85)")
-                )
+        # Build Folium 83-Station Interactive Map
+        m_83 = folium.Map(
+            location=[12.965, 77.595],
+            zoom_start=11,
+            tiles="OpenStreetMap"
+        )
+        
+        pilot_names = [
+            "Whitefield (Kadugodi)", "Hopefarm Channasandra", "Kadugodi Tree Park",
+            "Pattandur Agrahara", "Sathya Sai Hospital", "Nallurahalli",
+            "Kundalahalli", "Seetharampalya", "Hoodi", "Garudacharpalya"
+        ]
+        context_names = ["Singayyanapalya", "Krishnarajapura"]
+        
+        for _, r in stations_83_df.iterrows():
+            name = str(r.get("name", "Station"))
+            if name in pilot_names:
+                color = "#DC2626"
+                radius = 8.5
+                border_color = "#FFFFFF"
+                group_tag = "Whitefield Pilot (10 Stations)"
+            elif name in context_names:
+                color = "#F59E0B"
+                radius = 8.5
+                border_color = "#000000"
+                group_tag = "Western Context Absorber (2 Stations)"
             else:
-                fig_83 = px.scatter_mapbox(
-                    stations_83_df,
-                    lat="lat",
-                    lon="lon",
-                    hover_name="name",
-                    color="corridor_group" if "corridor_group" in stations_83_df.columns else None,
-                    color_discrete_map=color_map,
-                    zoom=10.2,
-                    height=500
-                )
-                fig_83.update_layout(
-                    mapbox_style="open-street-map",
-                    margin=dict(l=10, r=10, t=10, b=10),
-                    legend=dict(yanchor="top", y=0.98, xanchor="left", x=0.02, bgcolor="rgba(255,255,255,0.85)")
-                )
-            st.plotly_chart(fig_83, width="stretch")
-        except Exception:
-            st.map(stations_83_df, latitude="lat", longitude="lon", zoom=10)
+                color = "#2563EB"
+                radius = 6.0
+                border_color = "#FFFFFF"
+                group_tag = "Bengaluru Metro Network (71 Stations)"
+                
+            ridership_val = r.get("avg_daily_boardings", 0)
+            ridership_str = f"{ridership_val:,.0f} entries/day" if pd.notna(ridership_val) and ridership_val > 0 else "N/A"
+            need_val = r.get("uncovered_walk_need", 0)
+            need_str = f"{need_val:,.0f} residents" if pd.notna(need_val) and need_val > 0 else "N/A"
+            pop_val = r.get("assigned_pop", 0)
+            pop_str = f"{pop_val:,.0f} residents" if pd.notna(pop_val) and pop_val > 0 else "N/A"
+            rank_val = r.get("weighted_rank", "N/A")
+            rank_str = f"#{int(rank_val)}" if pd.notna(rank_val) and str(rank_val).replace('.0','').isdigit() else "N/A"
+            
+            popup_html = f"""
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; line-height: 1.45; min-width: 210px;">
+                <div style="font-weight: 700; font-size: 14px; color: #0f172a; margin-bottom: 2px;">{name}</div>
+                <div style="color: {color}; font-weight: 600; font-size: 11px; margin-bottom: 6px;">● {group_tag}</div>
+                <hr style="margin: 6px 0; border: none; border-top: 1px solid #e2e8f0;">
+                <div style="color: #475569; font-size: 12px;">
+                    • <strong>City-Wide Priority:</strong> {rank_str}<br>
+                    • <strong>Avg Daily Boardings:</strong> {ridership_str}<br>
+                    • <strong>Unserved Need (>15m walk):</strong> {need_str}<br>
+                    • <strong>Station Buffer Population:</strong> {pop_str}
+                </div>
+            </div>
+            """
+            
+            folium.CircleMarker(
+                location=[float(r["lat"]), float(r["lon"])],
+                radius=radius,
+                color=border_color,
+                weight=1.5,
+                fill=True,
+                fill_color=color,
+                fill_opacity=0.92,
+                tooltip=f"🚉 {name} ({group_tag})",
+                popup=folium.Popup(popup_html, max_width=280)
+            ).add_to(m_83)
+            
+        st_folium(m_83, use_container_width=True, height=520, key="folium_83_network_map")
+
+        st.markdown("""
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; font-size: 0.82rem; color: #475569;">
+            <span><strong style="color: #DC2626;">● Red:</strong> Whitefield Pilot Corridor (10 Stations)</span>
+            <span><strong style="color: #D97706;">● Gold:</strong> Western Boundary Context Absorbers (2 Stations)</span>
+            <span><strong style="color: #2563EB;">● Blue:</strong> City-Wide Metro Network (71 Stations)</span>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col_roadmap:
         st.subheader("🚀 3-Phase City-Wide Rollout Plan")
         st.markdown("""
-        **Phase 1: High-Tech Eastern Corridor (Completed Pilot)**
-        - 10 Stations | Whitefield ITPL Corridor
-        - High-density tech campuses, extreme arterial congestion
-        - Baseline walk reach: 14.6% $\\rightarrow$ Active reach: 29.9%
+        <div style="font-size: 0.88rem; line-height: 1.6; color: #334155;">
+            <strong>Phase 1: High-Tech Eastern Corridor (Completed Pilot)</strong><br>
+            • <strong>10 Stations</strong> | Whitefield ITPL Corridor<br>
+            • High-density tech campuses & severe arterial road congestion<br>
+            • Baseline walk: <strong>14.6%</strong> → Active e-bike reach: <strong>28.6%</strong><br><br>
+            
+            <strong>Phase 2: High-Density Employment Corridors (Next 25 Stations)</strong><br>
+            • Outer Ring Road (Silk Board to KR Puram) & Electronics City<br>
+            • Targeted hub placement at high-ridership interchange stations (Majestic, MG Road, Indiranagar)<br><br>
+            
+            <strong>Phase 3: Full Network Integration (All 83 Stations)</strong><br>
+            • Complete Purple & Green Lines across Bengaluru<br>
+            • Unified micro-mobility integration across BMRCL, BMTC feeder buses, and shared EV fleets
+        </div>
+        """, unsafe_allow_html=True)
         
-        **Phase 2: High-Density Employment Corridors (Next 25 Stations)**
-        - Outer Ring Road (Silk Board to KR Puram) & Electronics City
-        - Targeted hub placement at high-ridership interchange stations
-        
-        **Phase 3: Full Network Integration (All 83 Stations)**
-        - Complete Purple & Green Lines
-        - Unified micro-mobility integration across BMRCL, BMTC feeder buses, and shared EV fleets
-        """)
+        st.markdown("""
+        <div class="info-card" style="margin-top: 14px;">
+            <strong>Network Distribution Summary:</strong><br>
+            • <strong>Whitefield Pilot Corridor:</strong> 10 stations (12.0%)<br>
+            • <strong>Western Context Absorbers:</strong> 2 stations (2.4%)<br>
+            • <strong>City-Wide Network Extension:</strong> 71 stations (85.6%)<br>
+            • <strong>Total BMRCL Mass Transit:</strong> 83 operational stations
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.subheader("📋 83-Station Network Master Directory")
-    st.dataframe(
-        stations_83_df[["station_id", "name", "corridor_group", "lat", "lon"]].head(25),
-        width="stretch",
-        hide_index=True
+    st.markdown("---")
+    st.subheader("📋 83-Station Network Master Directory & Priority Rankings")
+    st.markdown("Inspect official ridership data, territory populations, and mathematical equity ranks across all 83 BMRCL stations.")
+
+    # Table Filtering Controls
+    f_col1, f_col2 = st.columns([1, 1.5])
+    with f_col1:
+        corridor_filter = st.selectbox(
+            "Filter by Corridor Classification:",
+            ["All 83 Stations", "Whitefield Pilot (10 Stations)", "Western Context Absorber (2 Stations)", "Bengaluru Metro Network (71 Stations)"]
+        )
+    with f_col2:
+        search_query = st.text_input("🔍 Search Station Name:", placeholder="e.g. Majestic, Indiranagar, Hopefarm...")
+
+    # Filter DataFrame
+    table_df = stations_83_df.copy()
+    if corridor_filter != "All 83 Stations":
+        table_df = table_df[table_df["corridor_group"] == corridor_filter]
+    if search_query:
+        table_df = table_df[table_df["name"].str.contains(search_query, case=False, na=False)]
+
+    # Format Display DataFrame
+    if "weighted_rank" in table_df.columns:
+        table_df["weighted_rank"] = pd.to_numeric(table_df["weighted_rank"], errors="coerce").fillna(99).astype(int)
+        table_df = table_df.sort_values("weighted_rank")
+    else:
+        table_df["weighted_rank"] = range(1, len(table_df) + 1)
+
+    display_df = pd.DataFrame({
+        "Priority Rank": table_df["weighted_rank"],
+        "Station Name": table_df["name"],
+        "Corridor Group": table_df["corridor_group"],
+        "Daily Boardings (BMRCL RTI)": table_df["avg_daily_boardings"].apply(lambda x: f"{x:,.0f}" if pd.notna(x) and x > 0 else "N/A"),
+        "Unserved Need (>15m walk)": table_df["uncovered_walk_need"].apply(lambda x: f"{x:,.0f}" if pd.notna(x) and x > 0 else "N/A"),
+        "Buffer Territory Pop": table_df["assigned_pop"].apply(lambda x: f"{x:,.0f}" if pd.notna(x) and x > 0 else "N/A"),
+        "Latitude": table_df["lat"].round(6),
+        "Longitude": table_df["lon"].round(6)
+    })
+
+    st.dataframe(display_df, width="stretch", hide_index=True)
+    st.caption(f"Showing {len(display_df)} of 83 stations. Sourced from official BMRCL August 2025 disclosures and WorldPop 2020 zonal aggregation.")
+
+    # One-click Master CSV Download Button
+    csv_bytes = stations_83_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="⬇️ Download Complete 83-Station Master Network Dataset (CSV)",
+        data=csv_bytes,
+        file_name="stations_83_network_master.csv",
+        mime="text/csv"
     )
-    st.caption("Showing first 25 stations. Complete 83-station dataset exported in data/output_network/stations_83_network.csv.")
 
 
 # ==============================================================================
