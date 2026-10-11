@@ -8,9 +8,11 @@
 
 ---
 
-### Live Production Application
-Explore the complete interactive spatial screening tool live in your browser:  
-**[https://bengaluru-metro-feeder.streamlit.app](https://bengaluru-metro-feeder.streamlit.app)**
+### Live Production Application & Presentation Deck
+* 🌐 **Interactive Web Platform:** [https://bengaluru-metro-feeder.streamlit.app](https://bengaluru-metro-feeder.streamlit.app)  
+* 📊 **Executive Presentation Deck (10 Widescreen Slides, .pptx):** [`docs/Last_Mile_First_UrbanFluX_Presentation.pptx`](docs/Last_Mile_First_UrbanFluX_Presentation.pptx)  
+* 🎙️ **Slide-by-Slide Defense Guide & Jury Script:** [`docs/PRESENTATION_DECK_GUIDE.md`](docs/PRESENTATION_DECK_GUIDE.md)  
+* 📈 **83-Station City-Wide Scaling Report:** [`docs/NETWORK_83_SCALING_REPORT.md`](docs/NETWORK_83_SCALING_REPORT.md)  
 
 ---
 
@@ -267,6 +269,7 @@ Verify mathematical consistency and pipeline assertions:
 ```bash
 pytest tests/ -v
 python scripts/verify_all_project_math.py
+python scripts/generate_presentation_deck.py
 ```
 
 ### Step 4: Launch the Interactive Dashboard Locally
