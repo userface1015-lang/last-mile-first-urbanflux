@@ -2,20 +2,15 @@
 
 **An Open-Data Decision Support Framework for Sustainable e-Micromobility Planning in Bengaluru**
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://bengaluru-metro-feeder.streamlit.app)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-informational.svg)](https://www.python.org/)
-[![H3 Resolution 9](https://img.shields.io/badge/Spatial%20Grid-H3%20Res--9%20(~100m)-teal.svg)](https://h3geo.org/)
-
 **Developed by Team UrbanFluX**  
 *SHIFT Sustainable e-Micromobility Hackathon · Indian Institute of Technology (BHU), Varanasi*  
 *10–11 October 2026*
 
 ---
 
-### 🌐 Live Production Application
+### Live Production Application
 Explore the complete interactive spatial screening tool live in your browser:  
-👉 **[https://bengaluru-metro-feeder.streamlit.app](https://bengaluru-metro-feeder.streamlit.app)**
+**[https://bengaluru-metro-feeder.streamlit.app](https://bengaluru-metro-feeder.streamlit.app)**
 
 ---
 
