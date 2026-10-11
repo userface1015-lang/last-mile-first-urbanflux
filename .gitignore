@@ -1,0 +1,35 @@
+# Large data files
+data/raw/*.tif
+data/raw/*.tiff
+data/raw/worldpop/
+data/raw/ghsl_tile/*.tif
+data/interim/
+
+# Python cache & virtualenv
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Streamlit
+!.streamlit/config.toml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project caches and ignored directories
+cache/
+.cursor/
+data/raw/
+data/documents/
+scratch/
+data/interim_network/
+*.osm.pbf
+
+
+

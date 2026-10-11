@@ -1,0 +1,76 @@
+study:
+  # Mode: 'pilot' uses stations_pilot (10 continuous stations), 'all' uses all 63 stations in Bengaluru
+  selection_mode: "pilot"
+  stations_pilot:
+    - "Whitefield (Kadugodi)"
+    - "Hopefarm Channasandra"
+    - "Kadugodi Tree Park"
+    - "Pattandur Agrahara"
+    - "Sathya Sai Hospital"
+    - "Nallurahalli"
+    - "Kundalahalli"
+    - "Seetharampalya"
+    - "Hoodi"
+    - "Garudacharpalya"
+  stations_context:
+    - "Singayyanapalya"
+    - "Krishnarajapura"
+  core_buffer_m: 3000
+  margin_m: 500
+  metric_crs: "EPSG:32643"
+  display_crs: "EPSG:4326"
+
+grid:
+  h3_resolution: 9
+
+speeds_kmh:
+  walk: 4.5       # Pedestrian usable paths
+  ebike: 13.5     # E-bike effective urban speed (test 12, 15)
+  eauto: 18.0     # E-auto / e-rickshaw speed in mixed traffic (test 15, 20)
+
+overhead_min:
+  ebike: 5        # 3 min unlock + 2 min park
+  eauto: 5        # 3 min wait + 2 min boarding
+
+thresholds:
+  T_min: 15
+  walk_to_zone_max_min: 5
+
+safety_filter:
+  exclude_highway_classes:
+    - "motorway"
+    - "motorway_link"
+    - "trunk"
+    - "trunk_link"
+  penalise_or_exclude_primary_if:
+    lanes_at_least: 3
+    maxspeed_at_least_kmh: 50
+  mode: "exclude"
+  penalty_factor: 2.0
+
+optimiser:
+  k_values:
+    - 3
+    - 5
+    - 10
+  site_spacing_m: 120
+
+paths:
+  raw: "data/raw"
+  interim: "data/interim"
+  output: "data/output"
+
+seed: 42
+
+network:
+  snapshot: "BMRCL, August 2025"
+  total_stations: 83
+  gpkg_stations_count: 63
+  osm_stations_count: 20
+  paths:
+    output: "data/output_network"
+    interim: "data/interim_network"
+  study:
+    core_buffer_m: 3000
+    margin_m: 500
+

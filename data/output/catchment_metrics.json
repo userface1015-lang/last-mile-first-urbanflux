@@ -1,0 +1,28 @@
+{
+  "study_area": "Whitefield 10-Station Metro Corridor",
+  "threshold_T_min": 15.0,
+  "total_population": 562035.0,
+  "walk_covered_pop": 80767.0,
+  "walk_covered_pct": 14.4,
+  "ebike_uplift_pop": 92091.0,
+  "ebike_uplift_pct": 16.4,
+  "eauto_uplift_pop": 82209.0,
+  "eauto_uplift_pct": 14.6,
+  "combined_covered_pop": 255067.0,
+  "combined_covered_pct": 45.4,
+  "residual_pop": 306968.0,
+  "residual_pct": 54.6,
+  "corridor_assigned": {
+    "corridor_population": 453687.0,
+    "walk_covered_pop": 66417.0,
+    "walk_covered_pct": 14.6,
+    "ebike_uplift_pop": 69215.0,
+    "ebike_uplift_pct": 15.3,
+    "eauto_uplift_pop": 77509.0,
+    "eauto_uplift_pct": 17.1,
+    "combined_covered_pop": 213140.0,
+    "combined_covered_pct": 47.0,
+    "residual_pop": 240547.0,
+    "residual_pct": 53.0
+  }
+}

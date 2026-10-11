@@ -1,0 +1,11 @@
+station_id,name,walk_uncovered_need,avg_daily_ridership,total_ridership,weight,priority_score,rank
+ST_008,Seetharampalya,79312.5,8365.0,150570.0,1.0702,84878.2,1
+ST_001,Whitefield (Kadugodi),73253.3,8464.0,152354.0,1.0828,79321.6,2
+ST_009,Hoodi,58045.5,6970.0,125465.0,0.8917,51759.5,3
+ST_004,Pattandur Agrahara,30654.2,10028.0,180496.0,1.2829,39327.2,4
+ST_003,Kadugodi Tree Park,20710.6,11647.0,209638.0,1.4901,30860.0,5
+ST_006,Nallurahalli,26130.7,7659.0,137855.0,0.9799,25604.2,6
+ST_002,Hopefarm Channasandra,73820.6,2536.0,45654.0,0.3244,23950.5,7
+ST_010,Garudacharpalya,21305.5,7176.0,129160.0,0.9181,19559.7,8
+ST_005,Sathya Sai Hospital,2156.5,7678.0,138209.0,0.9823,2118.3,9
+ST_007,Kundalahalli,1881.2,7643.0,137566.0,0.9778,1839.4,10
