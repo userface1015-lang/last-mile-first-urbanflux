@@ -283,7 +283,7 @@ def build_slide_1(prs):
     bp.space_after = Pt(2)
 
     bp2 = b_tf.add_paragraph()
-    bp2.text = "Open-Source Repository: https://github.com/avikachauhan246/shift-2026-K7UYFL   |   Submodular Optimization: (1 - 1/e) guarantee"
+    bp2.text = "Open-Source Repository: https://github.com/userface1015-lang/last-mile-first-urbanflux   |   Submodular Optimization: (1 - 1/e) guarantee"
     bp2.font.name = FONT_BODY
     bp2.font.size = Pt(10)
     bp2.font.color.rgb = COLOR_TEXT_DIM

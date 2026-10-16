@@ -248,8 +248,8 @@ The project includes an enterprise-grade Streamlit application structured into 9
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/avikachauhan246/shift-2026-K7UYFL.git
-cd shift-2026-K7UYFL
+git clone https://github.com/userface1015-lang/last-mile-first-urbanflux.git
+cd last-mile-first-urbanflux
 ```
 
 ### Step 2: Set Up Virtual Environment & Dependencies
@@ -304,7 +304,7 @@ If you build upon or reference this methodology in academic, urban planning, or 
   author={Chauhan, Avika and Team UrbanFluX},
   year={2026},
   howpublished={SHIFT Sustainable e-Micromobility Hackathon, IIT (BHU) Varanasi},
-  url={https://github.com/avikachauhan246/shift-2026-K7UYFL}
+  url={https://github.com/userface1015-lang/last-mile-first-urbanflux}
 }
 ```
 

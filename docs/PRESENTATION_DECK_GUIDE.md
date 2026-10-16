@@ -10,7 +10,7 @@
 * **Symlink / Mirror File**: [`docs/presentation_deck.pptx`](file:///e:/Project/docs/presentation_deck.pptx)
 * **Automation Generator Script**: [`scripts/generate_presentation_deck.py`](file:///e:/Project/scripts/generate_presentation_deck.py)
 * **Live Interactive Platform**: [https://bengaluru-metro-feeder.streamlit.app](https://bengaluru-metro-feeder.streamlit.app)
-* **Open Source GitHub Repository**: [https://github.com/avikachauhan246/shift-2026-K7UYFL](https://github.com/avikachauhan246/shift-2026-K7UYFL)
+* **Open Source GitHub Repository**: [https://github.com/userface1015-lang/last-mile-first-urbanflux](https://github.com/userface1015-lang/last-mile-first-urbanflux)
 
 ---
 
